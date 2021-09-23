@@ -18,6 +18,7 @@ class _CounterDemoState extends State<CounterDemoScreen> {
   void initState() {
     super.initState();
     con = _Controller(this);
+    print('======== initState(): CounterDemo');
   }
 
   void render(fn) {
@@ -26,6 +27,7 @@ class _CounterDemoState extends State<CounterDemoScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print('======== build(): CounterDemo');
     return Scaffold(
       appBar: AppBar(
         title: Text('Counter Demo'),
@@ -67,6 +69,11 @@ class _CounterDemoState extends State<CounterDemoScreen> {
         ],
       ),
     );
+  }
+  @override
+  void dispose() {
+    print('======== dispose(): CounterDemo');
+    super.dispose();
   }
 }
 

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lesson2/model/course.dart';
+import 'package:lesson2/viewscreen/cardlist_screen.dart';
 import 'package:lesson2/viewscreen/counterdemo_screen.dart';
 import 'package:lesson2/viewscreen/lifecycle_screen.dart';
 import 'package:lesson2/viewscreen/start_screen.dart';
@@ -17,6 +19,10 @@ class Lesson2App extends StatelessWidget {
         StartScreen.routeName: (context) => StartScreen(),
         CounterDemoScreen.routeName: (context) => CounterDemoScreen(),
         LifecycleScreen.routeName: (context) => LifecycleScreen(),
+        CardListScreen.routeName: (context) {
+          Object? args = ModalRoute.of(context)?.settings.arguments;
+          return CardListScreen(args as List<Course>);
+        }
       },
     );
   }

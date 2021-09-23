@@ -11,10 +11,13 @@ class LifecycleScreen extends StatefulWidget {
 
 class _LifecycleState extends State<LifecycleScreen> {
 
+  String? gps;
+
   @override
   void initState() {
     super.initState();
     print('======== initState: LifeCycle Demo Widget');
+    gps = "GPS is allocated /reserved";
   }
 
   @override
@@ -24,13 +27,15 @@ class _LifecycleState extends State<LifecycleScreen> {
       appBar: AppBar(
         title: Text('Lifecycle Demo'),
       ),
-      body: Text('LifeCycle Demo'),
+      body: Text('LifeCycle Demo: $gps'),
     );
   }
 
   @override
   void dispose() {
     print('======== dispose: LifeCycle Demo Widgtet');
+    print('GPS is released');
+    gps = null;
     super.dispose();
   }
 
