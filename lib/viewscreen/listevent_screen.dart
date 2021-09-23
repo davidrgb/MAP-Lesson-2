@@ -29,12 +29,24 @@ class _ListEventState extends State<ListEventScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('List Event Demo'),
+        actions: con.selected.isEmpty ? null : [
+          IconButton(
+            onPressed: con.delete,
+            icon: Icon(Icons.delete),
+          ),
+          IconButton(
+            onPressed: con.cancel,
+            icon: Icon(Icons.cancel),
+          ),
+        ],
       ),
       body: ListView.builder(
         itemCount: widget.allCourses.length,
         itemBuilder: (BuildContext context, int index) {
           return Container(
-            color: Colors.lime[200],
+            color: con.selected.contains(index)
+                ? con.selectedColor
+                : con.unselectedColor,
             padding: EdgeInsets.all(10.0),
             margin: EdgeInsets.all(10.0),
             child: ListTile(
@@ -52,14 +64,43 @@ class _ListEventState extends State<ListEventScreen> {
 
 class _Controller {
   _ListEventState state;
+  List<int> selected = [];
+  final Color selectedColor = Colors.deepPurpleAccent;
+  final Color unselectedColor = Colors.lightBlue;
+
   _Controller(this.state);
 
+  void delete() {
+    selected.sort();
+    for (int i = selected.length - 1; i >= 0; i--) {
+      state.widget.allCourses.removeAt(selected[i]);
+    }
+    state.render(() {
+      selected.clear();
+    });
+    
+  }
+
+  void cancel() {
+    state.render(() {
+      selected.clear();
+    });
+  }
+
   void onLongPress(BuildContext context, int index) {
-    print('======== onLongPress : $index');
+    state.render(() {
+      if (selected.contains(index))
+        selected.remove(index);
+      else
+        selected.add(index);
+    });
   }
 
   void onTap(BuildContext context, int index) {
-    showDetails(context, state.widget.allCourses[index]);
+    if (selected.isEmpty)
+      showDetails(context, state.widget.allCourses[index]);
+    else
+      onLongPress(context, index);
   }
 
   void showDetails(BuildContext context, Course course) {
