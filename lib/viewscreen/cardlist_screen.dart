@@ -12,7 +12,6 @@ class CardListScreen extends StatefulWidget {
   State<StatefulWidget> createState() {
     return _CardListState();
   }
-
 }
 
 class _CardListState extends State<CardListScreen> {
@@ -22,8 +21,47 @@ class _CardListState extends State<CardListScreen> {
       appBar: AppBar(
         title: Text('Card List Demo'),
       ),
-      body: Text('${widget.allCourses.length}'),
+      body: SingleChildScrollView(
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              for (var course in widget.allCourses)
+                Card(
+                  color: Colors.lime[200],
+                  elevation: 15.0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      children: [
+                        Text(
+                          course.number,
+                          style: Theme.of(context).textTheme.headline5,
+                        ),
+                        Container(
+                          height: 200.0,
+                          child: Image.network(course.imageURL),
+                        ),
+                        Text(
+                          course.title,
+                          style: Theme.of(context).textTheme.headline6,
+                        ),
+                        Text(
+                          'Prerequisites: ${course.prereq}',
+                          style: Theme.of(context).textTheme.headline6,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ),
     );
   }
-
 }
