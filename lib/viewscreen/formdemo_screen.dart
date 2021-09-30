@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lesson2/model/userrecord.dart';
+import 'package:lesson2/viewscreen/userhome_screen.dart';
+import 'package:lesson2/viewscreen/view/myutil.dart';
 
 class FormDemoScreen extends StatefulWidget {
   static const routeName = '/formDemoScreen';
@@ -78,6 +81,24 @@ class _Controller {
     if (!currentState.validate()) return;
     currentState.save();
     print('======== email = $email, password = $password');
+
+    UserRecord user = UserRecord.fakeDB.firstWhere(
+      (e) => e.email == email && e.password == password,
+      orElse: () => UserRecord(),
+    );
+
+    if (user.email == '') {
+      MyUtil.showSnackBar(
+        context: state.context,
+        message: 'Incorrect email/password',
+      );
+    } else {
+      Navigator.pushNamed(
+        state.context,
+        UserHomeScreen.routeName,
+        arguments: user,
+      );
+    }
   }
 
   String? validateEmail(String? value) {

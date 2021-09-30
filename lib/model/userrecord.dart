@@ -1,13 +1,26 @@
 enum Classification {
-  FirstYear, SecondYear, ThirdYear, FourthYear, Graduate,
+  FirstYear,
+  SecondYear,
+  ThirdYear,
+  FourthYear,
+  Graduate,
 }
 
 enum Major {
-  CS, SE, DS, CE, Other,
+  CS,
+  SE,
+  DS,
+  CE,
+  Other,
 }
 
 enum Language {
-  Dart, Java, JavaScript, Cpp, Csharp, Python,
+  Dart,
+  Java,
+  JavaScript,
+  Cpp,
+  Csharp,
+  Python,
 }
 
 class UserRecord {
@@ -31,5 +44,25 @@ class UserRecord {
   }) {
     languages = {};
     Language.values.forEach((e) => languages[e] = false);
+  }
+
+  static List<UserRecord> fakeDB = [
+    UserRecord(
+      email: '1@test.com',
+      password: '111111',
+      name: 'One John',
+      phone: '1112223333',
+    ),
+    UserRecord(
+      email: '2@test.com',
+      password: '222222',
+      name: 'Two Smith',
+      phone: '2223334444',
+    ),
+  ];
+
+  @override
+  String toString() {
+    return 'UserRecord[email=$email password=$password name=$name]';
   }
 }
