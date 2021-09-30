@@ -7,6 +7,7 @@ import 'package:lesson2/viewscreen/error_screen.dart';
 import 'package:lesson2/viewscreen/formdemo_screen.dart';
 import 'package:lesson2/viewscreen/lifecycle_screen.dart';
 import 'package:lesson2/viewscreen/listevent_screen.dart';
+import 'package:lesson2/viewscreen/profile_screen.dart';
 import 'package:lesson2/viewscreen/start_screen.dart';
 import 'package:lesson2/viewscreen/userhome_screen.dart';
 
@@ -45,7 +46,14 @@ class Lesson2App extends StatelessWidget {
             return UserHomeScreen(args as UserRecord);
           else
             return ErrorScreen('argument is null at UserHomeScreen');
-        }
+        },
+        ProfileScreen.routeName: (context) {
+          Object? args = ModalRoute.of(context)?.settings.arguments;
+          if (args != null)
+            return ProfileScreen(args as UserRecord);
+          else
+            return ErrorScreen('argument is null at ProfileScreen');
+        },
       },
     );
   }

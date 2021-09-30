@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lesson2/model/userrecord.dart';
+import 'package:lesson2/viewscreen/profile_screen.dart';
 
 class UserHomeScreen extends StatefulWidget {
-
   static const routeName = '/userHomeScreen';
   final UserRecord userRecord;
 
@@ -27,21 +27,41 @@ class _UserHomeState extends State<UserHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('User Home'),
-      ),
-      body: Column(
-        children: [
-          Text(
-            'Name: ${widget.userRecord.name}',
-            style: Theme.of(context).textTheme.headline6,
+    return WillPopScope(
+      onWillPop: () => Future.value(false),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('User Home'),
+        ),
+        drawer: Drawer(
+          child: ListView(
+            children: [
+              DrawerHeader(child: Text(widget.userRecord.email)),
+              ListTile(
+                leading: Icon(Icons.person),
+                title: Text('Profile'),
+                onTap: con.profile,
+              ),
+              ListTile(
+                leading: Icon(Icons.exit_to_app),
+                title: Text('Sign Out'),
+                onTap: con.signOut,
+              ),
+            ],
           ),
-          Text(
-            'Name: ${widget.userRecord.email}',
-            style: Theme.of(context).textTheme.headline6,
-          ),
-        ],
+        ),
+        body: Column(
+          children: [
+            Text(
+              'Name: ${widget.userRecord.name}',
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            Text(
+              'Name: ${widget.userRecord.email}',
+              style: Theme.of(context).textTheme.headline6,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -50,4 +70,18 @@ class _UserHomeState extends State<UserHomeScreen> {
 class _Controller {
   late _UserHomeState state;
   _Controller(this.state);
+
+  void signOut() {
+    Navigator.of(state.context).pop();
+    Navigator.of(state.context).pop();
+  }
+
+  void profile() async {
+    await Navigator.pushNamed(
+      state.context,
+      ProfileScreen.routeName,
+      arguments: state.widget.userRecord,
+    );
+    Navigator.of(state.context).pop();
+  }
 }
