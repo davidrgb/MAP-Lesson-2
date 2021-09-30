@@ -3,6 +3,7 @@ import 'package:lesson2/model/course.dart';
 import 'package:lesson2/viewscreen/cardlist_screen.dart';
 import 'package:lesson2/viewscreen/counterdemo_screen.dart';
 import 'package:lesson2/viewscreen/error_screen.dart';
+import 'package:lesson2/viewscreen/formdemo_screen.dart';
 import 'package:lesson2/viewscreen/lifecycle_screen.dart';
 import 'package:lesson2/viewscreen/listevent_screen.dart';
 import 'package:lesson2/viewscreen/start_screen.dart';
@@ -35,6 +36,7 @@ class Lesson2App extends StatelessWidget {
           else
             return ErrorScreen('argument is null at ListEventScreen');
         },
+        FormDemoScreen.routeName: (context) => FormDemoScreen(),
       },
     );
   }

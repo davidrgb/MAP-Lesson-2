@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:lesson2/model/course.dart';
 import 'package:lesson2/viewscreen/cardlist_screen.dart';
 import 'package:lesson2/viewscreen/counterdemo_screen.dart';
+import 'package:lesson2/viewscreen/formdemo_screen.dart';
 import 'package:lesson2/viewscreen/listevent_screen.dart';
+
 
 class StartScreen extends StatefulWidget {
   static const routeName = '/startScreen';
@@ -45,6 +47,10 @@ class _StartScreenState extends State<StartScreen> {
               onPressed: con.navigate2ListEventDemo,
               child: Text('List Event Demo'),
             ),
+            ElevatedButton(
+              onPressed: con.navigate2FormDemo,
+              child: Text('Form Demo'),
+            ),
           ],
         ),
       ),
@@ -78,6 +84,14 @@ class _Controller {
     Navigator.pushNamed(
       state.context,
       ListEventScreen.routeName,
+      arguments: courseList,
+    );
+  }
+
+  void navigate2FormDemo() {
+    Navigator.pushNamed(
+      state.context,
+      FormDemoScreen.routeName,
       arguments: courseList,
     );
   }
