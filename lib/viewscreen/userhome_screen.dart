@@ -57,7 +57,7 @@ class _UserHomeState extends State<UserHomeScreen> {
               style: Theme.of(context).textTheme.headline6,
             ),
             Text(
-              'Name: ${widget.userRecord.email}',
+              'Email: ${widget.userRecord.email}',
               style: Theme.of(context).textTheme.headline6,
             ),
           ],
