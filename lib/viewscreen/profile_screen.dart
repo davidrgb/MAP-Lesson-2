@@ -108,6 +108,51 @@ class _ProfileState extends State<ProfileScreen> {
                   ),
                 ],
               ),
+              SizedBox(
+                height: 20.0,
+              ),
+              Text(
+                'Classification',
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              DropdownButtonFormField(
+                value: widget.userRecord.classification,
+                onChanged: editMode ? con.onChangedClassification : null,
+                items: [
+                  for (var c in Classification.values)
+                    DropdownMenuItem<Classification>(
+                      child: Text(c.toString().split('.')[1]),
+                      value: c,
+                    ),
+                ],
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
+              Text('Major', style: Theme.of(context).textTheme.headline6),
+              Column(
+                children: [
+                  for (var m in Major.values)
+                    RadioListTile<Major>(
+                      title: Text(m.toString().split('.')[1]),
+                      value: m,
+                      groupValue: widget.userRecord.major,
+                      onChanged: editMode ? con.onChangedMajor : null,
+                    ),
+                ],
+              ),
+              SizedBox(height: 20.0,),
+              Text('Language proficiency', style: Theme.of(context).textTheme.headline6,),
+              Column(
+                children: [
+                  for (var v in Language.values)
+                    CheckboxListTile(
+                      value: widget.userRecord.languages[v],
+                      title: Text(v.toString().split('.')[1]),
+                      onChanged: editMode ? (value) => con.onChangedLanguage(value, v) : null,
+                    ),
+                ],
+              ),
             ],
           ),
         ),
@@ -121,6 +166,9 @@ class _Controller {
   _Controller(this.state);
 
   void save() {
+    FormState? currentState = state.formKey.currentState;
+    if (currentState == null || !currentState.validate()) return;
+    currentState.save();
     state.render(() => state.editMode = false);
   }
 
@@ -129,20 +177,61 @@ class _Controller {
   }
 
   String? validateName(String? value) {
-    return null;
+    if (value == null || value.length < 2)
+      return 'Invalid name';
+    else
+      return null;
   }
 
-  void saveName(String? value) {}
+  void saveName(String? value) {
+    if (value != null) state.widget.userRecord.name = value;
+  }
 
   String? validatePhone(String? value) {
-    return null;
+    if (value == null || value.length < 10)
+      return 'Invalid phone number';
+    else
+      return null;
   }
 
-  void savePhone(String? value) {}
+  void savePhone(String? value) {
+    if (value != null) state.widget.userRecord.phone = value;
+  }
 
   String? validateAge(String? value) {
-    return null;
+    if (value == null) return 'Invalid age';
+    try {
+      int age = int.parse(value);
+      if (age >= 12)
+        return null;
+      else
+        return 'Min age is 12';
+    } catch (e) {
+      return 'Age must be an integer';
+    }
   }
 
-  void saveAge(String? value) {}
+  void saveAge(String? value) {
+    if (value != null) state.widget.userRecord.age = int.parse(value);
+  }
+
+  void onChangedClassification(Classification? c) {
+    if (c != null) {
+      state.render(() {
+        state.widget.userRecord.classification = c;
+      });
+    }
+  }
+
+  void onChangedMajor(Major? m) {
+    if (m != null) {
+      state.render(() => state.widget.userRecord.major = m);
+    }
+  }
+
+  void onChangedLanguage(bool? value, Language key) {
+    if (value != null) {
+      state.render(() => state.widget.userRecord.languages[key] = value);
+    }
+  }
 }
